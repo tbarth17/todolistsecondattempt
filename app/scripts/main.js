@@ -10,21 +10,28 @@ var TodoListView = Backbone.View.extend({
   initialize: function() {
     $('.container').append(this.el);
 
-    this.listenTo(this.collection, 'add', function(item){
-      this.$el.append('<li>' + item.get('todo') + "  " + "<input type='submit' value='Complete' class='complete'>" + "</li>");
-    });
-  },
+  }
+});
+
+var TodoListItemsView = Backbone.View.extend({
+  tagName: 'li',
 
   events: {
     'click .complete': 'strikeThrough'
   },
 
+  initialize: function(item) {
+
+    this.listenTo(this.collection, 'add', function(item){
+      $('.todo-list').append('<li>' + item.get('todo') + "  " + "<input type='submit' value='Complete'    class='complete'>" + "</li>");
+    });
+  },
+
   strikeThrough: function() {
+    console.log(this);
     $('li').addClass('strike');
   }
-
 });
-
 
 var CreateTodoListItemView = Backbone.View.extend({
 
@@ -54,4 +61,9 @@ $(document).ready(function(){
    var createTodoListItemView = new CreateTodoListItemView({collection: todoListItems});
    createTodoListItemView.render();
    var todoListView = new TodoListView({collection: todoListItems});
+   var todoListItemsView = new TodoListItemsView({collection: todoListItems});
+
 });
+ $('input').click(function(){
+   console.log('click');
+ })
